@@ -1,10 +1,11 @@
-package com.example.movieapp.di.network
+package com.example.movieapp.data.di.network
 
 import android.util.Log
 import com.example.movieapp.BuildConfig.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-@InstallIn(Singleton::class)
+@InstallIn(SingletonComponent::class)
 object ApiModule {
 
     @Provides

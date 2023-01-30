@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main.xml"
+    app:startDestination="@id/moviesFragment">
+
+    <fragment
+        android:id="@+id/genreFragment"
+        android:name="com.example.movieapp.view.genre.GenreFragment"
+        android:label="fragment_genre"
+        tools:layout="@layout/fragment_genre">
+        <action
+            android:id="@+id/action_genreFragment_to_moviesFragment"
+            app:destination="@id/moviesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/moviesFragment"
+        android:name="com.example.movieapp.view.movies.MoviesFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_movies" >
+        <action
+            android:id="@+id/action_moviesFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    <argument
+        android:name="genre"
+        app:argType=" com.example.movieapp.data.model.genres.Genre"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.movieapp.view.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_detailFragment_to_moviesFragment"
+            app:destination="@id/moviesFragment" />
+    </fragment>
+</navigation>
