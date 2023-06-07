@@ -4,4 +4,10 @@
     <string name="hour_short">hr</string>
     <string name="minute_short">min</string>
     <string name="thousand_separator">,</string>
+
+    <string name="error_connection">Unable to fetch data, please check your internet connection and try again.</string>
+    <string name="error_service">API service is not responding at the moment, please try again later.</string>
+    <string name="error_unknown">Unknown error occurred.</string>
+    <string name="button_retry">RETRY</string>
+
 </resources>
