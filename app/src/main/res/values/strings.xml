@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TMDB</string>
+
+    <string name="hour_short">hr</string>
+    <string name="minute_short">min</string>
+    <string name="thousand_separator">,</string>
+</resources>
