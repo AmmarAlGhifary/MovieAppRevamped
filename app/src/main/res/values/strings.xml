@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">TMDB</string>
 
+    <string name="detail_birthday">Birthday</string>
+    <string name="detail_current_age">" (%d years old)"</string>
+    <string name="detail_birthplace">Birthplace</string>
+    <string name="detail_biography">Biography</string>
+    <string name="detail_deathday">Deathday</string>
+    <string name="detail_death_age">" (at the age of %d)"</string>
+    <string name="detail_gender">Gender</string>
+    <string name="detail_job">Known For</string>
+    <string name="detail_also_known_as">Also Known As</string>
+
+    <string name="gender_female">Female</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_non_binary">Non-binary</string>
+
     <string name="hour_short">hr</string>
     <string name="minute_short">min</string>
     <string name="thousand_separator">,</string>
@@ -13,7 +27,5 @@
     <string name="tmdb_attribution_title">Attribution</string>
     <string name="tmdb_attribution_message">This product uses the TMDB API but is not endorsed or certified by TMDB.</string>
     <string name="tmdb_attribution_button_text">GOT IT</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
