@@ -30,7 +30,7 @@ data class TvDetailDTO(
     @SerializedName("networks")
     val networks: List<CompanyDTO>,
     @SerializedName("next_episode_to_air")
-    val nextEpisodeToAir: SeasonDetailDTO?,
+    val nextEpisodeToAir: EpisodeDTO?,
     @SerializedName("number_of_episodes")
     val numberOfEpisodes: Int,
     @SerializedName("number_of_seasons")
