@@ -3,11 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="activity"
+            type="com.example.tmdb.ui.fullscreen.FullscreenActivity" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.seeall.SeeAllActivity">
+        android:background="@color/black"
+        tools:context=".ui.fullscreen.FullscreenActivity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </FrameLayout>
 </layout>

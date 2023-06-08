@@ -10,4 +10,10 @@
     <string name="error_unknown">Unknown error occurred.</string>
     <string name="button_retry">RETRY</string>
 
+    <string name="tmdb_attribution_title">Attribution</string>
+    <string name="tmdb_attribution_message">This product uses the TMDB API but is not endorsed or certified by TMDB.</string>
+    <string name="tmdb_attribution_button_text">GOT IT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

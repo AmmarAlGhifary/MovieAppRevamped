@@ -37,7 +37,11 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.tmdb.BuildConfig.POSTER_BASE_URL
 import com.example.tmdb.R
 import com.example.tmdb.domain.model.Genre
+import com.example.tmdb.ui.moviedetails.MovieDetailsActivity
+import com.example.tmdb.ui.persondetails.PersonDetailsActivity
+import com.example.tmdb.ui.seasondetails.SeasonDetailsActivity
 import com.example.tmdb.ui.seeall.SeeAllActivity
+import com.example.tmdb.ui.tvdetails.TvDetailsActivity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.chip.Chip
@@ -83,10 +87,18 @@ fun View.setDetailsIntent(mediaType: MediaType, id: Int, imageUrl: String?, seas
 
     setOnClickListener {
         val intentClass = when (mediaType) {
-            // TODO (Navigation to MovieDetails, PersonDetails, TvDetails)
+            MediaType.MOVIE -> MovieDetailsActivity::class.java
+            MediaType.TV -> if (seasonNumber == null) TvDetailsActivity::class.java
+            else SeasonDetailsActivity::class.java
+            MediaType.PERSON -> PersonDetailsActivity::class.java
+        }
 
-            else -> {
-            }
+        Intent(context, intentClass).apply {
+            putExtra(Constants.DETAIL_ID, id)
+            putExtra(Constants.BACKGROUND_COLOR, backgroundColor)
+            if (seasonNumber != null) putExtra(Constants.SEASON_NUMBER, seasonNumber)
+
+            context.startActivity(this)
         }
     }
 }
@@ -115,7 +127,20 @@ fun View.setSeeAllIntent(
     isLandscape: Boolean?
 ) {
     setOnClickListener {
-        // TODO (Intent SeeAllActivity)
+        setOnClickListener {
+            Intent(context, SeeAllActivity::class.java).apply {
+                putExtra(Constants.INTENT_TYPE, intentType as Parcelable)
+                putExtra(Constants.TITLE, title)
+                putExtra(Constants.BACKGROUND_COLOR, backgroundColor)
+                if (mediaType != null) putExtra(Constants.MEDIA_TYPE, mediaType as Parcelable)
+                if (detailId != null) putExtra(Constants.DETAIL_ID, detailId)
+                if (listId != null) putExtra(Constants.LIST_ID, listId)
+                if (region != null) putExtra(Constants.REGION, region)
+                if (list != null) putExtra(Constants.LIST, ArrayList(list))
+                if (isLandscape != null) putExtra(Constants.IS_LANDSCAPE, isLandscape)
+
+                context.startActivity(this)            }
+        }
     }
 }
 
@@ -293,24 +318,56 @@ fun RecyclerView.addInfiniteScrollListener(
         )
     }
 
-    @BindingAdapter("activity", "backArrowTint", "seeAllTitle", "titleTextColor", requireAll = false)
-    fun Toolbar.setupToolbar(activity: AppCompatActivity, backArrowTint: Int, seeAllTitle: String?, titleTextColor: Int?) {
+    @BindingAdapter(
+        "activity",
+        "backArrowTint",
+        "seeAllTitle",
+        "titleTextColor",
+        requireAll = false
+    )
+    fun Toolbar.setupToolbar(
+        activity: AppCompatActivity,
+        backArrowTint: Int,
+        seeAllTitle: String?,
+        titleTextColor: Int?
+    ) {
         activity.apply {
             setSupportActionBar(this@setupToolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             if (seeAllTitle != null) supportActionBar?.title = seeAllTitle
         }
 
-        navigationIcon?.setTint(if (backArrowTint != 0) backArrowTint.setTintColor() else ContextCompat.getColor(context, R.color.pink_200))
-        if (titleTextColor != null) setTitleTextColor(if (titleTextColor != 0) titleTextColor.setTintColor() else ContextCompat.getColor(context, R.color.pink_200))
+        navigationIcon?.setTint(
+            if (backArrowTint != 0) backArrowTint.setTintColor() else ContextCompat.getColor(
+                context,
+                R.color.pink_200
+            )
+        )
+        if (titleTextColor != null) setTitleTextColor(
+            if (titleTextColor != 0) titleTextColor.setTintColor() else ContextCompat.getColor(
+                context,
+                R.color.pink_200
+            )
+        )
 
         setNavigationOnClickListener {
             activity.finish()
         }
     }
 
-    @BindingAdapter("collapsingToolbar", "frameLayout", "toolbarTitle", "backgroundColor", requireAll = false)
-    fun AppBarLayout.setToolbarCollapseListener(collapsingToolbar: CollapsingToolbarLayout, frameLayout: FrameLayout, toolbarTitle: String, backgroundColor: Int) {
+    @BindingAdapter(
+        "collapsingToolbar",
+        "frameLayout",
+        "toolbarTitle",
+        "backgroundColor",
+        requireAll = false
+    )
+    fun AppBarLayout.setToolbarCollapseListener(
+        collapsingToolbar: CollapsingToolbarLayout,
+        frameLayout: FrameLayout,
+        toolbarTitle: String,
+        backgroundColor: Int
+    ) {
         var isShow = true
         var scrollRange = -1
         this.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -333,7 +390,10 @@ fun RecyclerView.addInfiniteScrollListener(
 
 
     @BindingAdapter("expand", "expandIcon")
-    fun ConstraintLayout.setExpandableLayout(expandableLayout: ExpandableLayout, expandIcon: ImageView) {
+    fun ConstraintLayout.setExpandableLayout(
+        expandableLayout: ExpandableLayout,
+        expandIcon: ImageView
+    ) {
         setOnClickListener {
             expandableLayout.toggle()
             expandIcon.animate().rotationBy(-180f)
@@ -344,7 +404,11 @@ fun RecyclerView.addInfiniteScrollListener(
 
 
     @BindingAdapter("genreMediaType", "genres", "chipTint", requireAll = false)
-    fun ChipGroup.setGenreChips(mediaType: MediaType, genreList: List<Genre>?, backgroundColor: Int) {
+    fun ChipGroup.setGenreChips(
+        mediaType: MediaType,
+        genreList: List<Genre>?,
+        backgroundColor: Int
+    ) {
         genreList?.let {
             it.forEach { genre ->
                 addView(
