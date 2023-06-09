@@ -1,5 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Loading">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:indeterminate">true</item>
+    </style>
+
+    <style name="Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
+    <style name="TitleWithoutSeeAll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/start_margin</item>
+        <item name="android:layout_marginEnd">@dimen/end_margin</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TitleParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/start_margin</item>
+        <item name="android:layout_marginEnd">@dimen/end_margin_small</item>
+    </style>
+
+    <style name="RecyclerView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/top_margin_small</item>
+        <item name="android:layout_marginBottom">@dimen/bottom_margin_large</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingStart">@dimen/start_margin</item>
+        <item name="android:paddingEnd">@dimen/end_margin_small</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
+    </style>
+
+    <style name="SpinnerParent" parent="CardView">
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginStart">@dimen/start_margin</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:layout_marginEnd">@dimen/end_margin</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
 
     <style name="DetailLightTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/black</item>

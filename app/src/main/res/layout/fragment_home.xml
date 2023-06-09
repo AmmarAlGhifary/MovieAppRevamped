@@ -1,14 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+        <import type="com.example.tmdb.util.IntentType" />
+
+        <import type="com.example.tmdb.util.MediaType" />
+
+        <variable
+            name="fragment"
+            type="com.example.tmdb.ui.home.HomeFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.example.tmdb.ui.home.HomeViewModel" />
+
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        tools:context=".ui.home.HomeFragment">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--            android:onClick="@{() -> fragment.clearSearch()}"-->
+            <!--            isVisible="@{viewModel.isSearchInitialized}"-->
+            <ImageButton
+                android:id="@+id/iv_homeBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/start_margin"
+                android:layout_marginEnd="@dimen/end_margin"
+                android:background="?attr/selectableItemBackground"
+                android:src="?attr/homeAsUpIndicator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="16dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_homeBack"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="@string/tv_search_query_hint" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!--                isVisible="@{viewModel.uiState.loading &amp;&amp; !viewModel.query.empty}"-->
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/linearProgressIndicator"
+                style="@style/Loading"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    style="@style/TitleParent"
+                    android:layout_marginTop="0dp">
+
+                    <TextView
+                        android:id="@+id/tvTitleGenre"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/title_genre"
+                        android:textSize="@dimen/title_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvGenreList"
+                        style="@style/SpinnerParent"
+                        app:layout_constraintStart_toEndOf="@+id/tvTitleGenre"
+                        tools:ignore="MissingConstraints">
+
+                        <Spinner
+                            android:id="@+id/spGenreMediaType"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:entries="@array/media_type" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@color/pink_1000"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/cvGenreList"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvGenres"
+                    fixedSize="@{true}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/start_margin"
+                    android:paddingEnd="@dimen/end_margin"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2"
+                    tools:listitem="@layout/item_genre"/>
+
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</layout>
