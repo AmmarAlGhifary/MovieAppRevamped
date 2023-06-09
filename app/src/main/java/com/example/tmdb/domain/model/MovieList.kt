@@ -4,13 +4,13 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 data class MovieList (
-    val result: List<Movie>,
-    val totalResult: Int
+    val results: List<Movie>,
+    val totalResults: Int
 ) {
     companion object {
         val empty = MovieList(
-            result = emptyList(),
-            totalResult = 0
+            results = emptyList(),
+            totalResults = 0
         )
     }
 }

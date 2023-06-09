@@ -14,10 +14,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    private val viewModel : HomeViewModel by activityViewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
 
-    override val bindingVariables: ((FragmentHomeBinding) -> Unit)?
-        get() = TODO("Not yet implemented")
+    override val bindingVariables: (FragmentHomeBinding) -> Unit
+        get() = { binding ->
+            binding.fragment = this
+            binding.lifecycleOwner = viewLifecycleOwner
+            binding.viewModel = viewModel
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
