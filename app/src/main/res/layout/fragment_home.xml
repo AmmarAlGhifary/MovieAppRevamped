@@ -29,15 +29,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--            android:onClick="@{() -> fragment.clearSearch()}"-->
-            <!--            isVisible="@{viewModel.isSearchInitialized}"-->
             <ImageButton
                 android:id="@+id/iv_homeBack"
+                isVisible="@{viewModel.isSearchInitialized}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/start_margin"
                 android:layout_marginEnd="@dimen/end_margin"
                 android:background="?attr/selectableItemBackground"
+                android:onClick="@{() -> fragment.clearSearch()}"
                 android:src="?attr/homeAsUpIndicator"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toEndOf="@+id/iv_homeBack"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <SearchView
+                <androidx.appcompat.widget.SearchView
                     android:id="@+id/searchView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,10 +64,10 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!--                isVisible="@{viewModel.uiState.loading &amp;&amp; !viewModel.query.empty}"-->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/linearProgressIndicator"
                 style="@style/Loading"
+                isVisible="@{viewModel.uiState.loading &amp;&amp; !viewModel.query.empty}"
                 android:layout_gravity="bottom"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -79,9 +79,10 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                isVisible="@{viewModel.query.empty}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     style="@style/TitleParent"
@@ -89,14 +90,14 @@
 
                     <TextView
                         android:id="@+id/tvTitleGenre"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:textStyle="bold"
-                        android:text="@string/title_genre"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_genres"
                         android:textSize="@dimen/title_text_size"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvGenreList"
@@ -134,9 +135,173 @@
                     android:paddingEnd="@dimen/end_margin"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="2"
-                    tools:listitem="@layout/item_genre"/>
+                    tools:listitem="@layout/item_genre" />
 
             </LinearLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
+                isVisible="@{viewModel.uiState.success &amp;&amp; !viewModel.query.empty}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        style="@style/TitleParent"
+                        android:layout_marginTop="0dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvTitleMovies"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/title_movies"
+                            android:textSize="@dimen/title_text_size"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/item_count(viewModel.movieTotalResults)}"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tvTitleMovies"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            intentType="@{IntentType.SEARCH}"
+                            isVisible="@{viewModel.movieTotalResults > 3}"
+                            mediaType="@{MediaType.MOVIE}"
+                            stringId="@{viewModel.query}"
+                            title="@{@string/title_see_all_search(viewModel.query, viewModel.movieTotalResults)}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:gravity="bottom"
+                            android:paddingStart="@dimen/start_margin_small"
+                            android:paddingEnd="@dimen/end_margin_small"
+                            android:text="@string/title_see_all"
+                            android:textColor="@color/pink_700"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvMovies"
+                        style="@style/RecyclerView"
+                        loadMore="@{viewModel::onLoadMore}"
+                        shouldLoadMore="@{true}"
+                        type="@{MediaType.MOVIE}"
+                        android:adapter="@{fragment.adapterMovies}" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout style="@style/TitleParent">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvTitleTvShows"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/title_tv_shows"
+                            android:textSize="@dimen/title_text_size"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/item_count(viewModel.movieTotalResults)}"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tvTitleTvShows"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            intentType="@{IntentType.SEARCH}"
+                            isVisible="@{viewModel.movieTotalResults > 3}"
+                            mediaType="@{MediaType.MOVIE}"
+                            stringId="@{viewModel.query}"
+                            title="@{@string/title_see_all_search(viewModel.query, viewModel.movieTotalResults)}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:gravity="bottom"
+                            android:paddingStart="@dimen/start_margin_small"
+                            android:paddingEnd="@dimen/end_margin_small"
+                            android:text="@string/title_see_all"
+                            android:textColor="@color/pink_700"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvTvs"
+                        style="@style/RecyclerView"
+                        loadMore="@{viewModel::onLoadMore}"
+                        shouldLoadMore="@{true}"
+                        type="@{MediaType.TV}"
+                        android:adapter="@{fragment.adapterTvs}" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/TitleParent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTitlePeople"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_people"
+                        android:textSize="@dimen/title_text_size"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/item_count(viewModel.movieTotalResults)}"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvTitlePeople"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        intentType="@{IntentType.SEARCH}"
+                        isVisible="@{viewModel.movieTotalResults > 3}"
+                        mediaType="@{MediaType.MOVIE}"
+                        stringId="@{viewModel.query}"
+                        title="@{@string/title_see_all_search(viewModel.query, viewModel.movieTotalResults)}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="bottom"
+                        android:paddingStart="@dimen/start_margin_small"
+                        android:paddingEnd="@dimen/end_margin_small"
+                        android:text="@string/title_see_all"
+                        android:textColor="@color/pink_700"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.core.widget.NestedScrollView>
         </FrameLayout>
+
     </LinearLayout>
 </layout>

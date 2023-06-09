@@ -39,14 +39,12 @@
 
 <!-- Strings from HomeFragment-->
     <string name="tv_search_query_hint">Explore movies and shows you like!</string>
-    <string name="title_genre">Genre</string>
-
-<!-- START  Strings for containing arrays stuff-->
     <string name="title_genres">Genres</string>
     <string name="title_movies">Movies</string>
     <string name="title_tv_shows">TV Shows</string>
     <string name="title_people">People</string>
 
+<!-- START  Strings for containing arrays stuff-->
     <string name="title_airing_day">Today</string>
     <string name="title_airing_week">This Week</string>
 
@@ -145,8 +143,9 @@
     <string name="united_states">United States,US</string>
     <string name="uruguay">Uruguay,UY</string>
     <string name="vietnam">Vietnam,VN</string>
+    <string name="title_see_all">See All</string>
 
-<!-- END Strings for array stuff-->
+    <!-- END Strings for array stuff-->
 
 
 
