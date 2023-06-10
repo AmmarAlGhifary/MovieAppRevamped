@@ -8,7 +8,7 @@ import com.example.tmdb.util.Resource
 
 interface MovieRepository {
 
-    suspend fun getMovieList(listId : String, page: Int, region: String): Resource<MovieList>
+    suspend fun getMovieList(listId : String, page: Int, region: String?): Resource<MovieList>
 
     suspend fun getTrendingMovies(): Resource<MovieList>
 

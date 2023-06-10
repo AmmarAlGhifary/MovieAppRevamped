@@ -15,8 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val getSearchResults: GetSearchResult) :
-    BaseViewModel() {
+class HomeViewModel @Inject constructor(private val getSearchResults: GetSearchResult) : BaseViewModel() {
 
     private val _isSearchInitialized = MutableStateFlow(false)
     val isSearchInitialized get() = _isSearchInitialized.asStateFlow()
@@ -44,11 +43,11 @@ class HomeViewModel @Inject constructor(private val getSearchResults: GetSearchR
 
     private var pageMovie = 1
     private var pageTv = 1
-
     private var pagePerson = 1
+
     private var isQueryChanged = false
 
-    private suspend fun fetchSearchResult(mediaType: MediaType) {
+    private suspend fun fetchSearchResults(mediaType: MediaType) {
         val page = when (mediaType) {
             MediaType.MOVIE -> pageMovie
             MediaType.TV -> pageTv
@@ -61,20 +60,17 @@ class HomeViewModel @Inject constructor(private val getSearchResults: GetSearchR
                     when (mediaType) {
                         MediaType.MOVIE -> {
                             val movieList = response.data as MovieList
-                            _movieResults.value =
-                                if (isQueryChanged) movieList.results else _movieResults.value + movieList.results
+                            _movieResults.value = if (isQueryChanged) movieList.results else _movieResults.value + movieList.results
                             _movieTotalResults.value = movieList.totalResults
                         }
                         MediaType.TV -> {
                             val tvList = response.data as TvList
-                            _tvResults.value =
-                                if (isQueryChanged) tvList.results else _tvResults.value + tvList.results
+                            _tvResults.value = if (isQueryChanged) tvList.results else _tvResults.value + tvList.results
                             _tvTotalResults.value = tvList.totalResults
                         }
                         MediaType.PERSON -> {
                             val personList = response.data as PersonList
-                            _personResults.value =
-                                if (isQueryChanged) personList.results else _personResults.value + personList.results
+                            _personResults.value = if (isQueryChanged) personList.results else _personResults.value + personList.results
                             _personTotalResults.value = personList.totalResults
                         }
                     }
@@ -88,6 +84,7 @@ class HomeViewModel @Inject constructor(private val getSearchResults: GetSearchR
             }
         }
     }
+
     fun onLoadMore(type: Any?) {
         _uiState.value = UiState.loadingState(isInitial)
         isQueryChanged = false
@@ -99,7 +96,7 @@ class HomeViewModel @Inject constructor(private val getSearchResults: GetSearchR
         }
 
         viewModelScope.launch {
-            coroutineScope { fetchSearchResult(type) }
+            coroutineScope { fetchSearchResults(type) }
             uiState()
         }
     }
@@ -128,18 +125,16 @@ class HomeViewModel @Inject constructor(private val getSearchResults: GetSearchR
         _personResults.value = emptyList()
     }
 
-    private fun initRequests() {
+    fun initRequests() {
         viewModelScope.launch {
             coroutineScope {
                 launch {
-                    fetchSearchResult(MediaType.MOVIE)
-                    fetchSearchResult(MediaType.TV)
-                    fetchSearchResult(MediaType.PERSON)
+                    fetchSearchResults(MediaType.MOVIE)
+                    fetchSearchResults(MediaType.TV)
+                    fetchSearchResults(MediaType.PERSON)
                 }
             }
             uiState()
         }
     }
-
-
 }

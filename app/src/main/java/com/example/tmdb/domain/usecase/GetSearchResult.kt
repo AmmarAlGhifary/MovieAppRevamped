@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetSearchResult  @Inject constructor(
+class GetSearchResult @Inject constructor(
     private val movieRepository: MovieRepository,
     private val tvRepository: TvRepository,
     private val personRepository: PersonRepository
@@ -23,5 +23,4 @@ class GetSearchResult  @Inject constructor(
             }
         )
     }
-
 }

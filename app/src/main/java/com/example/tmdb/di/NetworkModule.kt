@@ -2,10 +2,9 @@ package com.example.tmdb.di
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkInfo
+import android.net.*
 import android.os.Build
+import android.util.Log
 import com.example.tmdb.BuildConfig.API_KEY
 import com.example.tmdb.BuildConfig.BASE_URL
 import com.example.tmdb.data.remote.api.MovieApi

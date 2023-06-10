@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetByGenre@Inject constructor(
+class GetByGenre @Inject constructor(
     private val movieRepository: MovieRepository,
     private val tvRepository: TvRepository
 ) {
@@ -18,7 +18,7 @@ class GetByGenre@Inject constructor(
             when (mediaType) {
                 MediaType.MOVIE -> movieRepository.getMoviesByGenre(genreId, page)
                 MediaType.TV -> tvRepository.getTvsByGenre(genreId, page)
-                else -> throw IllegalArgumentException(Constants.ILLEGAL_ARGUMENT_FRAGMENT_TYPE)
+                else -> throw IllegalArgumentException(Constants.ILLEGAL_ARGUMENT_MEDIA_TYPE)
             }
         )
     }

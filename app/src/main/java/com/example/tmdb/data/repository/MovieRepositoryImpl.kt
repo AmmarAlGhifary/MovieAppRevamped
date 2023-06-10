@@ -21,7 +21,7 @@ class MovieRepositoryImpl @Inject constructor(
 //    private val dao
 ) : MovieRepository {
 
-    override suspend fun getMovieList(listId: String, page: Int, region: String): Resource<MovieList> = safeApiCall.execute {
+    override suspend fun getMovieList(listId: String, page: Int, region: String?): Resource<MovieList> = safeApiCall.execute {
         api.getMovieList(listId, page, region).toMovieList()
     }
 
