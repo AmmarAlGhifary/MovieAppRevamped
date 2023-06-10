@@ -10,8 +10,8 @@ import com.example.tmdb.databinding.FragmentHomeBinding
 import com.example.tmdb.ui.base.BaseFragment
 import com.example.tmdb.ui.home.adapter.GenreAdapter
 import com.example.tmdb.ui.home.adapter.MoviesAdapter
-import com.example.tmdb.ui.moviedetails.adapter.PersonAdapter
-import com.example.tmdb.ui.tvlist.adapter.TvAdapter
+import com.example.tmdb.ui.home.adapter.TvAdapter
+import com.example.tmdb.ui.home.adapter.PersonAdapter
 import com.example.tmdb.util.LifecycleRecyclerView
 import com.example.tmdb.util.MediaType
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +42,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         setupSearchView()
         setupSpinner()
-        collectFlows(listOf(::collectMovieSearchResults, ::collectUiState))
+        collectFlows(listOf(::collectMovieSearchResults, ::collectTvSearchResults, ::collectPersonSearchResults, ::collectUiState))
 
     }
 
@@ -87,6 +87,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private suspend fun collectMovieSearchResults() {
         viewModel.movieResults.collect { movies ->
             adapterMovies.submitList(movies)
+        }
+    }
+
+    private suspend fun collectTvSearchResults() {
+        viewModel.tvResults.collect { tvs ->
+            adapterTvs.submitList(tvs)
+        }
+    }
+
+    private suspend fun collectPersonSearchResults() {
+        viewModel.personResults.collect { people ->
+            adapterPeople.submitList(people)
         }
     }
 

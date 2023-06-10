@@ -3,11 +3,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <import type="com.example.tmdb.util.IntentType" />
+
+        <variable
+            name="activity"
+            type="com.example.tmdb.ui.seeall.SeeAllActivity" />
+
+        <variable
+            name="viewModel"
+            type="com.example.tmdb.ui.seeall.SeeAllViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.seeall.SeeAllActivity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                activity="@{activity}"
+                backArrowTint="@{activity.backgroundColor}"
+                seeAllTitle="@{activity.title}"
+                titleTextColor="@{activity.backgroundColor}"
+                tools:title="See All"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@{activity.backgroundColor}"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSeeAll"
+                hasFixedSize="@{activity.intentType == IntentType.LIST || activity.intentType == IntentType.SEARCH || activity.intentType == IntentType.GENRE}"
+                isGrid="@{true}"
+                loadMore="@{viewModel::onLoadMore}"
+                shouldLoadMore="@{activity.intentType == IntentType.LIST || activity.intentType == IntentType.SEARCH || activity.intentType == IntentType.GENRE}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/start_margin_small"
+                android:paddingTop="@dimen/top_margin_small"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                style="@style/Loading"
+                isVisible="@{viewModel.uiState.loading}" />
+
+        </FrameLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

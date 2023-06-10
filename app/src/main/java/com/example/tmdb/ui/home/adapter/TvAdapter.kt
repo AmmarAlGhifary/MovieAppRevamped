@@ -1,16 +1,16 @@
-package com.example.tmdb.ui.tvlist.adapter
+package com.example.tmdb.ui.home.adapter
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tmdb.databinding.ItemTvBinding
 import com.example.tmdb.domain.model.Tv
 
 class TvAdapter(
     private val isGrid: Boolean = false,
-    private val isTrending: Boolean = false,
     private val isCredits: Boolean = false,
-    private val onTrendingFabClick: ((Int) -> Unit)? = null
 ) : ListAdapter<Tv, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -26,10 +26,29 @@ class TvAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        TODO("Not yet implemented")
+        return HorizontalViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        when (holder) {
+            is HorizontalViewHolder -> {
+                holder.view.apply {
+                    isGrid = this@TvAdapter.isGrid
+                    isCredits = this@TvAdapter.isCredits
+                    tv = getItem(position)
+                }
+            }
+        }
+    }
+
+    inner class HorizontalViewHolder private constructor(val view: ItemTvBinding) :
+        RecyclerView.ViewHolder(view.root) {
+        constructor(parent: ViewGroup) : this(
+            ItemTvBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 }
