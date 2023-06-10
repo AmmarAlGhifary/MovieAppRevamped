@@ -41,7 +41,8 @@
                 android:src="?attr/homeAsUpIndicator"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
@@ -55,7 +56,7 @@
                 app:layout_constraintStart_toEndOf="@+id/iv_homeBack"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.SearchView
+                <SearchView
                     android:id="@+id/searchView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -297,6 +298,15 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvPeople"
+                        style="@style/RecyclerView"
+                        loadMore="@{viewModel::onLoadMore}"
+                        shouldLoadMore="@{true}"
+                        type="@{MediaType.PERSON}"
+                        android:layout_marginBottom="@dimen/recyclerview_bottom_margin"
+                        android:adapter="@{fragment.adapterPeople}" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

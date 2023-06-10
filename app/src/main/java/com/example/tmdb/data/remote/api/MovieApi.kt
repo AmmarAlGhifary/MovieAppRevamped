@@ -13,7 +13,7 @@ interface MovieApi {
     suspend fun getMovieList(
         @Path("list_id") listId: String,
         @Query("page") page: Int,
-        @Query("region") region: String
+        @Query("region") region: String?
     ): MovieListDTO
 
     @GET("trending/movie/week")

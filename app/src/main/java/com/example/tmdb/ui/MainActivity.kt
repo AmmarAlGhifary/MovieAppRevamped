@@ -24,22 +24,20 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var dataStore: DataStore<Preferences>
 
-    private object PreferencesKey {
-        val IS_FIRST_LAUNCH = booleanPreferencesKey("is_first_launch")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityMainBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
 
         binding.bottomNavBar.setupWithNavController(navController)
 
         if (getIsFirstLaunch()) showAlertDialog()
+    }
+
+    private fun getIsFirstLaunch() = runBlocking {
+        dataStore.data.first()[PreferencesKey.IS_FIRST_LAUNCH] ?: true
     }
 
     private fun setIsFirstLaunch() {
@@ -50,13 +48,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getIsFirstLaunch() = runBlocking {
-        dataStore.data.first()[PreferencesKey.IS_FIRST_LAUNCH] ?: true
-    }
-
     private fun showAlertDialog() {
         MaterialAlertDialogBuilder(this)
-            .setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_baseline_person_24))
+            .setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_tmdb_24))
             .setTitle(getString(R.string.tmdb_attribution_title))
             .setMessage(getString(R.string.tmdb_attribution_message))
             .setPositiveButton(getString(R.string.tmdb_attribution_button_text)) { dialog, _ ->
@@ -66,5 +60,9 @@ class MainActivity : AppCompatActivity() {
             .setCancelable(false)
             .create()
             .show()
+    }
+
+    private object PreferencesKey {
+        val IS_FIRST_LAUNCH = booleanPreferencesKey("is_first_launch")
     }
 }
