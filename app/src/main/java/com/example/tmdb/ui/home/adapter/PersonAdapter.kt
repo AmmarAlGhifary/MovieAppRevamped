@@ -1,9 +1,12 @@
-package com.example.tmdb.ui.moviedetails.adapter
+package com.example.tmdb.ui.home.adapter
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tmdb.R
 import com.example.tmdb.databinding.ItemPersonBinding
 import com.example.tmdb.domain.model.Person
 
@@ -23,15 +26,17 @@ class PersonAdapter(
             }
         }
     }
-
-    inner class ViewHolder(val view: ItemPersonBinding) : RecyclerView.ViewHolder(view.root) {
-    }
+    inner class ViewHolder(val view: ItemPersonBinding) : RecyclerView.ViewHolder(view.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_person, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.view.apply {
+            isGrid = this@PersonAdapter.isGrid
+            isCast = this@PersonAdapter.isCast
+            person = getItem(position)
+        }
     }
 }
