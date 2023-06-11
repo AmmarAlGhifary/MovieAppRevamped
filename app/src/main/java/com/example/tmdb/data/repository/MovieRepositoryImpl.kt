@@ -1,8 +1,7 @@
 package com.example.tmdb.data.repository
 
-import com.example.tmdb.data.mapper.toMovieDetail
-import com.example.tmdb.data.mapper.toMovieList
-import com.example.tmdb.data.mapper.toVideoList
+import com.example.tmdb.data.local.dao.MovieDao
+import com.example.tmdb.data.mapper.*
 import com.example.tmdb.data.remote.api.MovieApi
 import com.example.tmdb.domain.model.FavoriteMovie
 import com.example.tmdb.domain.model.MovieDetail
@@ -18,7 +17,7 @@ import javax.inject.Singleton
 class MovieRepositoryImpl @Inject constructor(
     private val api: MovieApi,
     private val safeApiCall : SafeApiCall,
-//    private val dao
+    private val dao: MovieDao
 ) : MovieRepository {
 
     override suspend fun getMovieList(listId: String, page: Int, region: String?): Resource<MovieList> = safeApiCall.execute {
@@ -44,22 +43,16 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getMovieDetails(movieId: Int): Resource<MovieDetail> = safeApiCall.execute {
         api.getMovieDetails(movieId).toMovieDetail()
     }
+    override suspend fun getFavoriteMovies(): List<FavoriteMovie> = dao.getAllMovies().map { it.toFavoriteMovie() }
 
-    override suspend fun getFavoriteMovies(): List<FavoriteMovie> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun movieExists(movieId: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun movieExists(movieId: Int): Boolean = dao.movieExists(movieId)
 
     override suspend fun insertMovie(movie: FavoriteMovie) {
-        TODO("Not yet implemented")
+        dao.insertMovie(movie.toFavoriteMovieEntity())
     }
 
     override suspend fun deleteMovie(movie: FavoriteMovie) {
-        TODO("Not yet implemented")
+        dao.deleteMovie(movie.toFavoriteMovieEntity())
     }
-
 
 }

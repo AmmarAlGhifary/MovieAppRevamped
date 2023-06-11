@@ -126,6 +126,25 @@
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
+    <style name="ExpandableLayoutTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/start_margin</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
+    <style name="ExpandIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/end_margin</item>
+        <item name="android:src">@drawable/ic_baseline_keyboard_arrow_down_24</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
     <style name="BackButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -141,6 +160,30 @@
         <item name="android:layout_marginBottom">@dimen/bottom_margin</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
+
+    <style name="ListItemCount">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
+    <style name="SeeAll" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:paddingStart">@dimen/start_margin_small</item>
+        <item name="android:paddingEnd">@dimen/end_margin_small</item>
+        <item name="android:text">@string/title_see_all</item>
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+        <item name="android:textStyle">bold</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
 
     <style name="DetailLightTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/black</item>

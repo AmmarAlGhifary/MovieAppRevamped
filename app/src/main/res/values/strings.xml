@@ -11,6 +11,8 @@
     <string name="detail_gender">Gender</string>
     <string name="detail_job">Known For</string>
     <string name="detail_also_known_as">Also Known As</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 <!-- buat biodate PersonDTO-->
     <string name="gender_female">Female</string>
@@ -55,6 +57,7 @@
     <string name="detail_director">Director</string>
     <string name="detail_writers">Writers</string>
     <string name="detail_title_trailers">Trailers</string>
+    <string name="detail_creators">Creators</string>
     <string name="detail_title_cast">Cast</string>
     <string name="detail_title_images">Image</string>
     <string name="detail_title_details">Detail</string>
@@ -72,6 +75,19 @@
     <string name="detail_genre">Genre</string>
     <string name="detail_title_networks">Networks</string>
     <string name="detail_title_recommended_movies">Recommended Movies</string>
+    <string name="detail_first_air_date">First Episode Release Date</string>
+    <string name="detail_last_air_date">Last Episode Air Date</string>
+    <string name="detail_episode_runtime">Episode Runtime</string>
+    <string name="detail_season_count">Seasons</string>
+    <string name="detail_episode_count">Episodes</string>
+    <string name="detail_in_production">In Production</string>
+    <string name="detail_networks">Available On</string>
+    <string name="detail_season_episodes">%d episodes</string>
+    <string name="detail_title_seasons">Seasons</string>
+    <string name="detail_title_next_episode">Next Episode</string>
+    <string name="detail_body_next_episode">Season %d, Episode %d</string>
+    <string name="detail_title_recommended_tvs">Recommended TV Shows</string>
+
 
 
     <!--     START  Strings for containing arrays stuff-->
@@ -174,6 +190,7 @@
     <string name="uruguay">Uruguay,UY</string>
     <string name="vietnam">Vietnam,VN</string>
     <string name="title_see_all">See All</string>
+
 
     <!-- END Strings for array stuff-->
 
