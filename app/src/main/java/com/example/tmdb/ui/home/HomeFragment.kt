@@ -1,60 +1,119 @@
 package com.example.tmdb.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import com.example.tmdb.R
+import com.example.tmdb.databinding.FragmentHomeBinding
+import com.example.tmdb.ui.base.BaseFragment
+import com.example.tmdb.ui.home.adapter.GenreAdapter
+import com.example.tmdb.ui.home.adapter.MoviesAdapter
+import com.example.tmdb.ui.home.adapter.TvAdapter
+import com.example.tmdb.ui.home.adapter.PersonAdapter
+import com.example.tmdb.util.LifecycleRecyclerView
+import com.example.tmdb.util.MediaType
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val viewModel: HomeViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override val bindingVariables: (FragmentHomeBinding) -> Unit
+        get() = { binding ->
+            binding.fragment = this
+            binding.lifecycleOwner = viewLifecycleOwner
+            binding.viewModel = viewModel
+        }
+
+    val adapterMovies by lazy { MoviesAdapter() }
+    val adapterTvs by lazy { TvAdapter() }
+    val adapterPeople by lazy { PersonAdapter() }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycle.apply {
+            addObserver(LifecycleRecyclerView(binding.rvGenres))
+            addObserver(LifecycleRecyclerView(binding.rvMovies))
+            addObserver(LifecycleRecyclerView(binding.rvTvs))
+        }
+
+        setupSearchView()
+        setupSpinner()
+        collectFlows(listOf(::collectMovieSearchResults, ::collectTvSearchResults, ::collectPersonSearchResults, ::collectUiState))
+
+    }
+
+    fun clearSearch() {
+        viewModel.clearSearchResults()
+        adapterMovies.submitList(null)
+    }
+
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding.rvMovies.scrollToPosition(0)
+
+                if (!query.isNullOrEmpty()) viewModel.fetchInitialSearch(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean = false
+        })
+    }
+    private fun setupSpinner() {
+        binding.spGenreMediaType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when (position) {
+                    0 -> {
+                        val movieGenreIds = resources.getIntArray(R.array.movie_genre_ids).toTypedArray()
+                        val movieGenreNames = resources.getStringArray(R.array.movie_genre_names)
+                        binding.rvGenres.adapter = GenreAdapter(MediaType.MOVIE).apply { submitList(movieGenreIds.zip(movieGenreNames)) }
+                    }
+                    1 -> {
+                        val tvGenreIds = resources.getIntArray(R.array.tv_genre_ids).toTypedArray()
+                        val tvGenreNames = resources.getStringArray(R.array.tv_genre_names)
+                        binding.rvGenres.adapter = GenreAdapter(MediaType.TV).apply { submitList(tvGenreIds.zip(tvGenreNames)) }
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    private suspend fun collectMovieSearchResults() {
+        viewModel.movieResults.collect { movies ->
+            adapterMovies.submitList(movies)
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private suspend fun collectTvSearchResults() {
+        viewModel.tvResults.collect { tvs ->
+            adapterTvs.submitList(tvs)
+        }
+    }
+
+    private suspend fun collectPersonSearchResults() {
+        viewModel.personResults.collect { people ->
+            adapterPeople.submitList(people)
+        }
+    }
+
+    private suspend fun collectUiState() {
+        viewModel.uiState.collect { state ->
+            if (state.isError) showSnackbar(
+                message = state.errorText!!,
+                actionText = getString(R.string.button_retry),
+                anchor = true
+            ) {
+                viewModel.retryConnection {
+                    viewModel.initRequests()
                 }
             }
+        }
     }
+
 }

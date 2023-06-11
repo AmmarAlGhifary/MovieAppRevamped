@@ -5,56 +5,55 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.example.tmdb.R
+import com.example.tmdb.databinding.FragmentFavoriteMoviesBinding
+import com.example.tmdb.domain.model.FavoriteMovie
+import com.example.tmdb.ui.base.BaseFragment
+import com.example.tmdb.ui.favorites.adapter.FavoriteMoviesAdapter
+import com.example.tmdb.util.LifecycleRecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class FavoriteMoviesFragment : BaseFragment<FragmentFavoriteMoviesBinding>(R.layout.fragment_favorite_movies) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FavoriteMoviesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FavoriteMoviesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val viewModel: FavoriteMoviesViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    val adapterFavorites = FavoriteMoviesAdapter { removeMovie(it) }
+
+    override val bindingVariables: ((FragmentFavoriteMoviesBinding) -> Unit)
+        get() = { binding ->
+            binding.fragment = this
+            binding.lifecycleOwner = viewLifecycleOwner
+            binding.viewModel = viewModel
+        }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewLifecycleOwner.lifecycle.addObserver(LifecycleRecyclerView(binding.recyclerView))
+        collectFlows(listOf(::collectFavoriteMovies))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchFavoriteMovies()
+    }
+
+    private fun removeMovie(movie: FavoriteMovie) {
+        viewModel.removeMovieFromFavorites(movie)
+        showSnackbar(
+            message = getString(R.string.snackbar_removed_item),
+            actionText = getString(R.string.snackbar_action_undo),
+            anchor = true
+        ) {
+            viewModel.addMovieToFavorites(movie)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_movies, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoriteMoviesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoriteMoviesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private suspend fun collectFavoriteMovies() {
+        viewModel.favoriteMovies.collect { favoriteMovies ->
+            adapterFavorites.submitList(favoriteMovies)
+        }
     }
 }

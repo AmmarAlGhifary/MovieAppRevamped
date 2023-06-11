@@ -18,7 +18,7 @@ import kotlin.reflect.KSuspendFunction0
 
 abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId : Int) : AppCompatActivity() {
 
-    private val binding: B by lazy { DataBindingUtil.setContentView<B>(this, layoutId) }
+    protected val binding: B by lazy { DataBindingUtil.setContentView<B>(this, layoutId) }
 
     protected abstract val defineBindingVariables: ((B) -> Unit)?
 
