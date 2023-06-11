@@ -1,13 +1,6 @@
 package com.example.tmdb.util
 
 object Constants {
-    const val LIST_ID_POPULAR = "popular"
-    const val LIST_ID_TOP_RATED = "top_rated"
-    const val LIST_ID_NOW_PLAYING = "now_playing"
-    const val LIST_ID_UPCOMING = "upcoming"
-    const val LIST_ID_AIRING_DAY = "airing_today"
-    const val LIST_ID_AIRING_WEEK = "on_the_air"
-
     const val INTENT_TYPE = "intent_type"
     const val MEDIA_TYPE = "media_type"
     const val TITLE = "title"

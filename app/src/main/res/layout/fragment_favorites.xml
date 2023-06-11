@@ -11,7 +11,6 @@
             android:id="@+id/tabLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/pink_500"
             style="@style/Widget.Material3.TabLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
