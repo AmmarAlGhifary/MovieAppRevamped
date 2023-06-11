@@ -1,8 +1,9 @@
 package com.example.tmdb.ui.moviedetails
 
 import androidx.lifecycle.viewModelScope
+import com.example.tmdb.domain.model.FavoriteMovie
 import com.example.tmdb.domain.model.MovieDetail
-import com.example.tmdb.domain.usecase.GetDetails
+import com.example.tmdb.domain.usecase.*
 import com.example.tmdb.ui.base.BaseViewModel
 import com.example.tmdb.util.MediaType
 import com.example.tmdb.util.Resource
@@ -15,11 +16,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-    private val getDetails: GetDetails
+    private val getDetails: GetDetails,
+    private val checkFavorites: CheckFavorites,
+    private val deleteFavorites: DeleteFavorites,
+    private val addFavorites: AddFavorites
 ) : BaseViewModel() {
 
     private val _details = MutableStateFlow(MovieDetail.empty)
     val details get() = _details.asStateFlow()
+
+    private val _isInFavorites = MutableStateFlow(false)
+    val isInFavorites get() = _isInFavorites.asStateFlow()
+
+    private lateinit var favoriteMovie: FavoriteMovie
 
     private fun fetchMovieDetails() {
         viewModelScope.launch {
@@ -39,8 +48,26 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    private fun checkFavorites() {
+        viewModelScope.launch {
+            _isInFavorites.value = checkFavorites(MediaType.MOVIE, id)
+        }
+    }
+
+    fun updateFavorites() {
+        viewModelScope.launch {
+            if (_isInFavorites.value) {
+                deleteFavorites(mediaType = MediaType.MOVIE, movie = favoriteMovie)
+                _isInFavorites.value = false
+            } else {
+                addFavorites(mediaType = MediaType.MOVIE, movie = favoriteMovie)
+                _isInFavorites.value = true
+            }
+        }
+    }
     fun initRequests(movieId: Int) {
         id = movieId
         fetchMovieDetails()
+        checkFavorites()
     }
 }

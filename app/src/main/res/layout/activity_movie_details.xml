@@ -24,16 +24,15 @@
             type="com.example.tmdb.ui.moviedetails.MovieDetailsViewModel" />
 
     </data>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@{activity.backgroundColor}"
         android:orientation="vertical"
-        tools:context=".ui.moviedetails.MovieDetailsActivity">
+        tools:context=".presentation.ui.moviedetails.MovieDetailsActivity">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/clDetail"
+            android:id="@+id/coordinatorLayout"
             isVisible="@{viewModel.uiState.success}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -49,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:background="@{activity.backgroundColor}"
                 android:fitsSystemWindows="true">
-
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:id="@+id/collapsingToolbarLayout"
@@ -67,16 +65,16 @@
                         android:fitsSystemWindows="true"
                         app:layout_collapseMode="parallax">
 
-                        <androidx.appcompat.widget.AppCompatImageView
+                        <ImageView
                             centerCrop="@{true}"
                             imageMediaType="@{MediaType.MOVIE}"
                             imageQuality="@{ImageQuality.HIGH}"
                             imageUrl="@{viewModel.details.posterPath}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_baseline_movie_24" />
+                            tools:src="@drawable/ic_baseline_movie_24" />
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
+                        <LinearLayout
                             style="@style/BriefDetailParent"
                             transparentBackground="@{activity.backgroundColor}">
 
@@ -85,7 +83,7 @@
                                 android:text="@{viewModel.details.title}"
                                 tools:text="Movie Title" />
 
-                            <androidx.appcompat.widget.LinearLayoutCompat
+                            <LinearLayout
                                 isVisible="@{!viewModel.details.releaseDate.empty || viewModel.details.runtime != 0}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -110,7 +108,7 @@
                                     android:text="@{ExtensionsKt.formatTime(viewModel.details.runtime, context)}"
                                     tools:text="0hr 0min" />
 
-                            </androidx.appcompat.widget.LinearLayoutCompat>
+                            </LinearLayout>
 
                             <TextView
                                 style="@style/BriefDetailBody"
@@ -119,13 +117,12 @@
                                 app:drawableStartCompat="@drawable/ic_baseline_star_rate_18"
                                 tools:text="0.0 (0)" />
 
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        </LinearLayout>
 
                     </FrameLayout>
 
-                    <com.google.android.material.appbar.MaterialToolbar
+                    <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
-                        style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
                         activity="@{activity}"
                         backArrowTint="@{activity.backgroundColor}"
                         android:layout_width="match_parent"
@@ -143,7 +140,7 @@
                 android:background="@{activity.backgroundColor}"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -199,52 +196,31 @@
                         isVisible="@{!viewModel.details.videos.filterVideos(false).empty}">
 
                         <TextView
-                            android:id="@+id/tvVideos"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/videos"
+                            style="@style/Title"
                             android:text="@string/detail_title_trailers"
-                            android:textSize="@dimen/title_text_size"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            tools:ignore="MissingConstraints" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/ListItemCount"
                             android:text="@{@string/item_count(viewModel.details.videos.filterVideos(false).size())}"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tvVideos"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintStart_toEndOf="@id/videos"
+                            tools:ignore="MissingConstraints" />
 
                         <TextView
+                            style="@style/SeeAll"
                             backgroundColor="@{activity.backgroundColor}"
                             intentType="@{IntentType.VIDEOS}"
                             isVisible="@{viewModel.details.videos.filterVideos(false).size() > 2}"
                             list="@{viewModel.details.videos.filterVideos(false)}"
                             mediaType="@{MediaType.MOVIE}"
                             title="@{@string/detail_title_trailers + @string/item_count(viewModel.details.videos.filterVideos(false).size())}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:gravity="bottom"
-                            android:paddingStart="@dimen/start_margin_small"
-                            android:paddingEnd="@dimen/end_margin_small"
-                            android:text="@string/title_see_all"
-                            android:textColor="@color/pink_500"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            tools:ignore="MissingConstraints" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tvVideos"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            style="@style/ListItemCount"
+                            app:layout_constraintStart_toEndOf="@id/videos"
+                            tools:ignore="MissingConstraints" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -252,52 +228,33 @@
                         android:id="@+id/rvVideos"
                         style="@style/RecyclerView"
                         isVisible="@{!viewModel.details.videos.filterVideos(false).empty}"
-                        android:adapter="@{activity.adapterVideos}"
-                        tools:listitem="@layout/item_video"/>
+                        android:adapter="@{activity.adapterVideos}" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         style="@style/TitleParent"
                         isVisible="@{!viewModel.details.credits.cast.empty}">
 
                         <TextView
-                            android:id="@+id/tvCast"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/cast"
+                            style="@style/Title"
                             android:text="@string/detail_title_cast"
-                            android:textSize="@dimen/title_text_size"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            tools:ignore="MissingConstraints" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/ListItemCount"
                             android:text="@{@string/item_count(viewModel.details.credits.cast.size())}"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tvCast"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintStart_toEndOf="@id/cast"
+                            tools:ignore="MissingConstraints" />
 
                         <TextView
+                            style="@style/SeeAll"
                             backgroundColor="@{activity.backgroundColor}"
                             intentType="@{IntentType.CAST}"
                             isVisible="@{viewModel.details.credits.cast.size() > 3}"
                             list="@{viewModel.details.credits.cast}"
                             mediaType="@{MediaType.MOVIE}"
                             title="@{@string/detail_title_cast + @string/item_count(viewModel.details.credits.cast.size())}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:gravity="bottom"
-                            android:paddingStart="@dimen/start_margin_small"
-                            android:paddingEnd="@dimen/end_margin_small"
-                            android:text="@string/title_see_all"
-                            android:textColor="@color/pink_500"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            tools:ignore="MissingConstraints" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -305,34 +262,26 @@
                         android:id="@+id/rvCast"
                         style="@style/RecyclerView"
                         isVisible="@{!viewModel.details.credits.cast.empty}"
-                        android:adapter="@{activity.adapterCast}"
-                        tools:listitem="@layout/item_person"/>
+                        android:adapter="@{activity.adapterCast}" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         style="@style/TitleParent"
                         isVisible="@{!viewModel.details.images.backdrops.empty}">
 
                         <TextView
-                            android:id="@+id/tvImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/image"
+                            style="@style/Title"
                             android:text="@string/detail_title_images"
-                            android:textSize="@dimen/title_text_size"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            tools:ignore="MissingConstraints" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/ListItemCount"
                             android:text="@{@string/item_count(viewModel.details.images.backdrops.size())}"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tvImage"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintStart_toEndOf="@id/image"
+                            tools:ignore="MissingConstraints" />
 
                         <TextView
+                            style="@style/SeeAll"
                             backgroundColor="@{activity.backgroundColor}"
                             intentType="@{IntentType.IMAGES}"
                             isLandscape="@{true}"
@@ -340,18 +289,7 @@
                             list="@{viewModel.details.images.backdrops}"
                             mediaType="@{MediaType.MOVIE}"
                             title="@{@string/detail_title_images + @string/item_count(viewModel.details.images.backdrops.size())}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:gravity="bottom"
-                            android:paddingStart="@dimen/start_margin_small"
-                            android:paddingEnd="@dimen/end_margin_small"
-                            android:text="@string/title_see_all"
-                            android:textColor="@color/pink_500"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            tools:ignore="MissingConstraints" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -360,8 +298,7 @@
                         style="@style/RecyclerView"
                         fixedSize="@{true}"
                         isVisible="@{!viewModel.details.images.backdrops.empty}"
-                        android:adapter="@{activity.adapterImages}"
-                        tools:listitem="@layout/item_image"/>
+                        android:adapter="@{activity.adapterImages}" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         expand="@{expandableLayout}"
@@ -370,33 +307,24 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/start_margin"
+                            style="@style/ExpandableLayoutTitle"
                             android:text="@string/detail_title_details"
-                            android:textSize="@dimen/title_text_size"
-                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@id/expandableLayout"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            tools:ignore="MissingConstraints" />
 
                         <ImageView
                             android:id="@+id/ivExpand"
+                            style="@style/ExpandIcon"
                             iconTint="@{activity.backgroundColor}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/end_margin"
-                            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                             app:layout_constraintBottom_toTopOf="@id/expandableLayout"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            tools:ignore="MissingConstraints" />
 
                         <net.cachapa.expandablelayout.ExpandableLayout
                             android:id="@+id/expandableLayout"
                             style="@style/ExpandableLayout"
                             tools:ignore="MissingConstraints">
 
-                            <androidx.appcompat.widget.LinearLayoutCompat
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
@@ -518,7 +446,7 @@
                                     isVisible="@{!viewModel.details.status.empty}"
                                     android:text="@{viewModel.details.status}" />
 
-                            </androidx.appcompat.widget.LinearLayoutCompat>
+                            </LinearLayout>
 
                         </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -529,36 +457,19 @@
                         isVisible="@{viewModel.details.recommendations.totalResults != 0}">
 
                         <TextView
-                            android:id="@+id/tvRecommendations"
-                            isVisible="@{viewModel.details.recommendations.totalResults != 0}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/detail_title_recommended_movies"
-                            android:textSize="@dimen/title_text_size"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            style="@style/Title"
+                            android:text="@{@string/detail_title_recommended_movies}"
+                            tools:ignore="MissingConstraints" />
 
                         <TextView
+                            style="@style/SeeAll"
                             backgroundColor="@{activity.backgroundColor}"
                             intentType="@{IntentType.RECOMMENDATIONS}"
                             isVisible="@{viewModel.details.recommendations.totalResults > 3}"
                             list="@{viewModel.details.recommendations.results}"
                             mediaType="@{MediaType.MOVIE}"
                             title="@{@string/detail_title_recommended_movies}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:gravity="bottom"
-                            android:paddingStart="@dimen/start_margin_small"
-                            android:paddingEnd="@dimen/end_margin_small"
-                            android:text="@string/title_see_all"
-                            android:textColor="@color/pink_500"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            tools:ignore="MissingConstraints" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -567,15 +478,14 @@
                         style="@style/RecyclerView"
                         fixedSize="@{true}"
                         isVisible="@{viewModel.details.recommendations.totalResults != 0}"
-                        android:adapter="@{activity.adapterRecommendations}"
-                        tools:listitem="@layout/item_movie"/>
+                        android:adapter="@{activity.adapterRecommendations}" />
 
                     <TextView
                         style="@style/TitleWithoutSeeAll"
                         isVisible="@{viewModel.details.externalIds.imdbId != null || viewModel.details.externalIds.facebookId != null || viewModel.details.externalIds.instagramId != null || viewModel.details.externalIds.twitterId != null || !viewModel.details.homepage.empty}"
                         android:text="@string/detail_title_networks" />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    <LinearLayout
                         style="@style/ExternalsParent"
                         isVisible="@{viewModel.details.externalIds.imdbId != null || viewModel.details.externalIds.facebookId != null || viewModel.details.externalIds.instagramId != null || viewModel.details.externalIds.twitterId != null || !viewModel.details.homepage.empty}">
 
@@ -619,9 +529,9 @@
                             isVisible="@{!viewModel.details.homepage.empty}"
                             android:src="@drawable/ic_baseline_link_36" />
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    </LinearLayout>
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
 
@@ -634,7 +544,8 @@
                 android:src="@{viewModel.isInFavorites ? @drawable/ic_baseline_favorite_24 : @drawable/ic_baseline_favorite_border_24}"
                 app:layout_anchor="@id/appBarLayout"
                 app:layout_anchorGravity="end|bottom"
-                tools:src="@drawable/ic_baseline_favorite_border_24" />
+                tools:src="@drawable/ic_baseline_favorite_border_24"
+                tools:ignore="ContentDescription" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -653,5 +564,6 @@
             style="@style/Loading"
             isVisible="@{viewModel.uiState.loading}" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
+
 </layout>
