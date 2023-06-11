@@ -18,8 +18,8 @@ import javax.inject.Inject
 class MovieDetailsViewModel @Inject constructor(
     private val getDetails: GetDetails,
     private val checkFavorites: CheckFavorites,
-    private val deleteFavorites: DeleteFavorites,
-    private val addFavorites: AddFavorites
+    private val deleteFavorite: DeleteFavorites,
+    private val addFavorite: AddFavorites
 ) : BaseViewModel() {
 
     private val _details = MutableStateFlow(MovieDetail.empty)
@@ -37,6 +37,16 @@ class MovieDetailsViewModel @Inject constructor(
                     is Resource.Success -> {
                         (response.data as MovieDetail).apply {
                             _details.value = this
+                            favoriteMovie = FavoriteMovie(
+                                id = id,
+                                posterPath = posterPath,
+                                releaseDate = releaseDate,
+                                runtime = runtime,
+                                title = title,
+                                voteAverage = voteAverage,
+                                voteCount = voteCount,
+                                date = System.currentTimeMillis()
+                            )
                         }
                         _uiState.value = UiState.successState()
                     }
@@ -57,17 +67,18 @@ class MovieDetailsViewModel @Inject constructor(
     fun updateFavorites() {
         viewModelScope.launch {
             if (_isInFavorites.value) {
-                deleteFavorites(mediaType = MediaType.MOVIE, movie = favoriteMovie)
+                deleteFavorite(mediaType = MediaType.MOVIE, movie = favoriteMovie)
                 _isInFavorites.value = false
             } else {
-                addFavorites(mediaType = MediaType.MOVIE, movie = favoriteMovie)
+                addFavorite(mediaType = MediaType.MOVIE, movie = favoriteMovie)
                 _isInFavorites.value = true
             }
         }
     }
+
     fun initRequests(movieId: Int) {
         id = movieId
-        fetchMovieDetails()
         checkFavorites()
+        fetchMovieDetails()
     }
 }

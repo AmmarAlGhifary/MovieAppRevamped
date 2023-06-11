@@ -23,11 +23,6 @@ class SeasonAdapter(private val tvId: Int) : ListAdapter<Season, SeasonAdapter.V
             }
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_season, parent, false))
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.view.apply {
             tvId = this@SeasonAdapter.tvId
@@ -36,4 +31,8 @@ class SeasonAdapter(private val tvId: Int) : ListAdapter<Season, SeasonAdapter.V
     }
 
     inner class ViewHolder(val view: ItemSeasonBinding) : RecyclerView.ViewHolder(view.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_season, parent, false))
+    }
 }

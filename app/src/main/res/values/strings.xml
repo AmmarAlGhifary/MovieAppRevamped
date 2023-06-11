@@ -49,8 +49,15 @@
     <string name="title_tv_shows">TV Shows</string>
     <string name="title_people">People</string>
 
+<!--    Strings from favorites-->
+    <string name="empty_favorites_list_movie">Your favorite movies list is empty</string>
+    <string name="empty_favorites_list_tv">Your favorite TV shows list is empty</string>
+    <string name="snackbar_removed_item">Removed from favorites</string>
+    <string name="snackbar_action_undo">UNDO</string>
+    <string name="n_a">N/A</string>
 
-<!--  String from Details-->
+
+    <!--  String from Details-->
     <string name="bullet_point">•</string>
     <string name="thousand_separator">,</string>
     <string name="detail_summary">Summary</string>
@@ -87,6 +94,9 @@
     <string name="detail_title_next_episode">Next Episode</string>
     <string name="detail_body_next_episode">Season %d, Episode %d</string>
     <string name="detail_title_recommended_tvs">Recommended TV Shows</string>
+    <string name="detail_title_episodes">Episodes</string>
+    <string name="detail_title_guest_stars">Guest Stars</string>
+
 
 
 
@@ -190,8 +200,8 @@
     <string name="uruguay">Uruguay,UY</string>
     <string name="vietnam">Vietnam,VN</string>
     <string name="title_see_all">See All</string>
-
-
+    <string name="tab_title_1">MOVIES</string>
+    <string name="tab_title_2">TV SHOWS</string>
     <!-- END Strings for array stuff-->
 
 

@@ -162,4 +162,12 @@
         <item>@string/title_airing_week</item>
     </string-array>
 
+    <string-array name="credits_type">
+        <item>@string/title_as_cast</item>
+        <item>@string/title_as_crew</item>
+    </string-array>
+
+    <string name="title_as_cast">As Cast</string>
+    <string name="title_as_crew">As Crew</string>
+
 </resources>
