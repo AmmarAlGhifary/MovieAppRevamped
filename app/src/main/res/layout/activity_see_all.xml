@@ -58,7 +58,8 @@
                 android:paddingStart="@dimen/start_margin_small"
                 android:paddingTop="@dimen/top_margin_small"
                 android:scrollbarStyle="outsideOverlay"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                tools:ignore="RtlSymmetry" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 style="@style/Loading"

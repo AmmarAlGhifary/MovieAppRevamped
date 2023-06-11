@@ -20,7 +20,6 @@
 <!-- timescale stuff lupa pasang dimana-->
     <string name="hour_short">hr</string>
     <string name="minute_short">min</string>
-    <string name="thousand_separator">,</string>
 
 <!-- error message from network module-->
     <string name="error_connection">Unable to fetch data, please check your internet connection and try again.</string>
@@ -48,7 +47,34 @@
     <string name="title_tv_shows">TV Shows</string>
     <string name="title_people">People</string>
 
-<!-- START  Strings for containing arrays stuff-->
+
+<!--  String from Details-->
+    <string name="bullet_point">•</string>
+    <string name="thousand_separator">,</string>
+    <string name="detail_summary">Summary</string>
+    <string name="detail_director">Director</string>
+    <string name="detail_writers">Writers</string>
+    <string name="detail_title_trailers">Trailers</string>
+    <string name="detail_title_cast">Cast</string>
+    <string name="detail_title_images">Image</string>
+    <string name="detail_title_details">Detail</string>
+    <string name="detail_original_title">Original Title</string>
+    <string name="detail_release_date">Release Date</string>
+    <string name="detail_runtime">Runtime</string>
+    <string name="detail_vote_count">User Vote Count</string>
+    <string name="detail_vote_average">User Score</string>
+    <string name="detail_spoken_language">Spoken Language</string>
+    <string name="detail_budget">Budget</string>
+    <string name="detail_revenue">Revenue</string>
+    <string name="detail_production_company">Production Company</string>
+    <string name="detail_production_country">Production Country</string>
+    <string name="detail_status">Status</string>
+    <string name="detail_genre">Genre</string>
+    <string name="detail_title_networks">Networks</string>
+    <string name="detail_title_recommended_movies">Recommended Movies</string>
+
+
+    <!--     START  Strings for containing arrays stuff-->
     <string name="title_airing_day">Today</string>
     <string name="title_airing_week">This Week</string>
 
