@@ -6,16 +6,13 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdb.R
 import com.example.tmdb.databinding.ActivitySeeAllBinding
-import com.example.tmdb.domain.model.Movie
-import com.example.tmdb.domain.model.Person
-import com.example.tmdb.domain.model.Tv
+import com.example.tmdb.domain.model.*
 import com.example.tmdb.ui.base.BaseActivity
-import com.example.tmdb.ui.home.adapter.MoviesAdapter
-import com.example.tmdb.ui.home.adapter.TvAdapter
-import com.example.tmdb.ui.home.adapter.PersonAdapter
+import com.example.tmdb.ui.home.adapter.*
 import com.example.tmdb.util.Constants
 import com.example.tmdb.util.IntentType
 import com.example.tmdb.util.MediaType
+import com.example.tmdb.util.playYouTubeVideo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -72,10 +69,9 @@ class SeeAllActivity : BaseActivity<ActivitySeeAllBinding>(R.layout.activity_see
 
     private fun getList() {
         binding.rvSeeAll.adapter = when (intentType) {
-            // TODO: Reminder do this
             IntentType.CAST -> PersonAdapter(isGrid = true, isCast = true).apply { submitList(list as List<Person>) }
-//            IntentType.IMAGES -> ImageAdapter(mediaType == MediaType.PERSON, true).apply { submitList(list as List<Image>) }
-            //            IntentType.VIDEOS -> VideoAdapter(true) { playYouTubeVideo(it) }.apply { submitList(list as List<Video>) }
+            IntentType.IMAGES -> ImageAdapter(mediaType == MediaType.PERSON, true).apply { submitList(list as List<Image>) }
+            IntentType.VIDEOS -> VideoAdapter(true) { playYouTubeVideo(it) }.apply { submitList(list as List<Video>) }
             IntentType.PERSON_CREDITS -> when (mediaType) {
                 MediaType.MOVIE -> MoviesAdapter(isGrid = true, isCredits = true).apply { submitList(list as List<Movie>) }
                 MediaType.TV -> TvAdapter(isGrid = true, isCredits = true).apply { submitList(list as List<Tv>) }

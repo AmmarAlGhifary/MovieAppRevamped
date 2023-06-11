@@ -29,16 +29,16 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
+                style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
                 activity="@{activity}"
                 backArrowTint="@{activity.backgroundColor}"
                 seeAllTitle="@{activity.title}"
                 titleTextColor="@{activity.backgroundColor}"
-                style="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
-                tools:title="See All"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@{activity.backgroundColor}"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                app:layout_scrollFlags="scroll|enterAlways"
+                tools:title="See All" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
