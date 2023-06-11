@@ -1,10 +1,13 @@
 package com.example.tmdb.util
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tmdb.BuildConfig
 import com.example.tmdb.R
+import com.google.android.youtube.player.YouTubeStandalonePlayer
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -70,4 +73,8 @@ fun String?.formatDate(): String {
     val outputFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.US)
     val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
     return if (!this.isNullOrEmpty()) outputFormat.format(inputFormat.parse(this)) else ""
+}
+
+fun Activity.playYouTubeVideo(videoKey: String) {
+    startActivity(YouTubeStandalonePlayer.createVideoIntent(this, BuildConfig.YOUTUBE_API_KEY, videoKey, 0, true, false))
 }

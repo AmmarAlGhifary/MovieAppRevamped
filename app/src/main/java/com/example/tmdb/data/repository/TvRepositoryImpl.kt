@@ -1,5 +1,6 @@
 package com.example.tmdb.data.repository
 
+import com.example.tmdb.data.local.dao.TvDao
 import com.example.tmdb.data.mapper.*
 import com.example.tmdb.data.remote.api.TvApi
 import com.example.tmdb.domain.model.*
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 class TvRepositoryImpl @Inject constructor(
     private val api: TvApi,
     private val safeApiCall: SafeApiCall,
-
+    private val dao: TvDao
 ) : TvRepository {
 
     override suspend fun getTvList(listId: String, page: Int): Resource<TvList> = safeApiCall.execute {
@@ -48,19 +49,11 @@ class TvRepositoryImpl @Inject constructor(
         api.getEpisodeDetails(tvId, seasonNumber, episodeNumber).toEpisodeDetail()
     }
 
-    override suspend fun getFavoriteTvs(): List<FavoriteTv> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getFavoriteTvs(): List<FavoriteTv> = dao.getAllTvs().map { it.toFavoriteTv() }
 
-    override suspend fun tvExists(tvId: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun tvExists(tvId: Int): Boolean = dao.tvExists(tvId)
 
-    override suspend fun insertTv(tv: FavoriteTv) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun insertTv(tv: FavoriteTv) = dao.insertTv(tv.toFavoriteTvEntity())
 
-    override suspend fun deleteTv(tv: FavoriteTv) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun deleteTv(tv: FavoriteTv) = dao.deleteTv(tv.toFavoriteTvEntity())
 }

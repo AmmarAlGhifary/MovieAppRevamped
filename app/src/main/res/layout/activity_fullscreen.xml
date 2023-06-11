@@ -12,10 +12,37 @@
     </data>
 
     <FrameLayout
+        android:id="@+id/flFullscreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
         tools:context=".ui.fullscreen.FullscreenActivity">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpImages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <ImageView
+            isVisible="@{!activity.fullscreen}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> activity.finish()}"
+            android:padding="@dimen/padding_close_button"
+            android:src="@drawable/ic_baseline_close_24"
+            app:tint="@color/white" />
+
+        <TextView
+            isVisible="@{!activity.fullscreen}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="16dp"
+            android:text="@{activity.imageNumber}"
+            android:textColor="@color/white"
+            tools:text="1/10" />
 
     </FrameLayout>
 </layout>
