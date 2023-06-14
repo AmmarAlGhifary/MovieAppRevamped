@@ -1,9 +1,5 @@
 # MovieAppRevamped
 
-![Alt Text](images/movieapp1.jpg)
-![Alt Text](images/movieapp2.jpg)
-![Alt Text](images/movieapp3.jpg)
-
 ## Clone Repository
 
 To clone this repository to your local machine, follow these steps:
