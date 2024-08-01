@@ -290,7 +290,7 @@ fun Toolbar.setupToolbar(activity: AppCompatActivity, backArrowTint: Int, seeAll
 fun AppBarLayout.setToolbarCollapseListener(collapsingToolbar: CollapsingToolbarLayout, frameLayout: FrameLayout, toolbarTitle: String, backgroundColor: Int) {
     var isShow = true
     var scrollRange = -1
-    this.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+    this.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
         if (scrollRange == -1) {
             scrollRange = appBarLayout?.totalScrollRange!!
         }
@@ -305,7 +305,7 @@ fun AppBarLayout.setToolbarCollapseListener(collapsingToolbar: CollapsingToolbar
             collapsingToolbar.title = " "
             isShow = false
         }
-    })
+    }
 }
 
 @BindingAdapter("expand", "expandIcon")

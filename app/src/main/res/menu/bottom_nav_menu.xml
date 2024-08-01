@@ -11,4 +11,9 @@
         android:icon="@drawable/nav_menu_ic_favorites"
         android:title="@string/title_favorites_str" />
 
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/nav_menu_ic_profiles"
+        android:title="@string/profile"
+        />
 </menu>

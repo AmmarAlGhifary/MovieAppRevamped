@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">TMDB</string>
 
-<!-- Sama kek dibawah tapi gw lupa naroh ini dimana-->
+    <!-- Sama kek dibawah tapi gw lupa naroh ini dimana-->
     <string name="detail_birthday">Birthday</string>
     <string name="detail_current_age">" (%d years old)"</string>
     <string name="detail_birthplace">Birthplace</string>
@@ -14,22 +14,22 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-<!-- buat biodate PersonDTO-->
+    <!-- buat biodate PersonDTO-->
     <string name="gender_female">Female</string>
     <string name="gender_male">Male</string>
     <string name="gender_non_binary">Non-binary</string>
 
-<!-- timescale stuff lupa pasang dimana-->
+    <!-- timescale stuff lupa pasang dimana-->
     <string name="hour_short">hr</string>
     <string name="minute_short">min</string>
 
-<!-- error message from network module-->
+    <!-- error message from network module-->
     <string name="error_connection">Unable to fetch data, please check your internet connection and try again.</string>
     <string name="error_service">API service is not responding at the moment, please try again later.</string>
     <string name="error_unknown">Unknown error occurred.</string>
     <string name="button_retry">RETRY</string>
 
-<!-- Disclaimer and copyright stuffs-->
+    <!-- Disclaimer and copyright stuffs-->
     <string name="tmdb_attribution_title">Attribution</string>
     <string name="tmdb_attribution_message">This product uses the TMDB API but is not endorsed or certified by TMDB.</string>
     <string name="tmdb_attribution_button_text">GOT IT</string>
@@ -42,14 +42,14 @@
     <string name="title_home_str">Home</string>
     <string name="title_favorites_str">Favorites</string>
 
-<!-- Strings from HomeFragment-->
+    <!-- Strings from HomeFragment-->
     <string name="tv_search_query_hint">Explore movies and shows you like!</string>
     <string name="title_genres">Genres</string>
     <string name="title_movies">Movies</string>
     <string name="title_tv_shows">TV Shows</string>
     <string name="title_people">People</string>
 
-<!--    Strings from favorites-->
+    <!--    Strings from favorites-->
     <string name="empty_favorites_list_movie">Your favorite movies list is empty</string>
     <string name="empty_favorites_list_tv">Your favorite TV shows list is empty</string>
     <string name="snackbar_removed_item">Removed from favorites</string>
@@ -96,8 +96,6 @@
     <string name="detail_title_recommended_tvs">Recommended TV Shows</string>
     <string name="detail_title_episodes">Episodes</string>
     <string name="detail_title_guest_stars">Guest Stars</string>
-
-
 
 
     <!--     START  Strings for containing arrays stuff-->
@@ -202,8 +200,23 @@
     <string name="title_see_all">See All</string>
     <string name="tab_title_1">MOVIES</string>
     <string name="tab_title_2">TV SHOWS</string>
-    <!-- END Strings for array stuff-->
 
+    <string name="profile">Profile</string>
+    <string name="about">About</string>
+    <string name="bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</string>
+    <string name="user_information">User Information</string>
+    <string name="username">Username</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="age">Age</string>
+    <string name="_21">21</string>
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="mobile">Mobile</string>
+    <string name="mobile_value">(621) 81319816409</string>
+    <string name="email">Email</string>
+    <string name="email_value">email@mail.com</string>
+    <string name="social_media">Social Media</string>
+    <!-- END Strings for array stuff-->
 
 
 </resources>
