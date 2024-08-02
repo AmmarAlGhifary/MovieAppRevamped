@@ -3,6 +3,7 @@ package com.example.tmdb.util
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tmdb.BuildConfig
@@ -77,4 +78,9 @@ fun String?.formatDate(): String {
 
 fun Activity.playYouTubeVideo(videoKey: String) {
     startActivity(YouTubeStandalonePlayer.createVideoIntent(this, BuildConfig.YOUTUBE_API_KEY, videoKey, 0, true, false))
+}
+
+fun extractRequestToken(url: String): String? {
+    val uri = Uri.parse(url)
+    return uri.getQueryParameter("request_token")
 }

@@ -9,11 +9,15 @@ fun CountryDTO.toCountry() = Country(name)
 
 fun CreatorDTO.toCreator() = Creator(name)
 
-fun CreditsDTO.toCredits() = Credits(cast.map { it.toPerson() }, crew.map { it.toPerson() }, guestStars?.map { it.toPerson() })
+fun CreditsDTO.toCredits() = Credits(cast.map { it.toPerson() },
+    crew.map { it.toPerson() },
+    guestStars?.map { it.toPerson() })
 
-fun EpisodeDTO.toEpisode() = Episode(airDate, episodeNumber, name, overview, seasonNumber, stillPath, voteAverage, voteCount)
+fun EpisodeDTO.toEpisode() =
+    Episode(airDate, episodeNumber, name, overview, seasonNumber, stillPath, voteAverage, voteCount)
 
-fun EpisodeDetailDTO.toEpisodeDetail() = EpisodeDetail(credits.toCredits(), images.toImageList(), videos.toVideoList())
+fun EpisodeDetailDTO.toEpisodeDetail() =
+    EpisodeDetail(credits.toCredits(), images.toImageList(), videos.toVideoList())
 
 fun ExternalDTO.toExternal() = External(facebookId, imdbId, instagramId, twitterId)
 
@@ -21,13 +25,18 @@ fun GenreDTO.toGenre() = Genre(id, name)
 
 fun ImageDTO.toImage() = Image(filePath)
 
-fun ImageListDTO.toImageList() = ImageList(backdrops?.map { it.toImage() }, posters?.map { it.toImage() }, profiles?.map { it.toImage() }, stills?.map { it.toImage() })
+fun ImageListDTO.toImageList() = ImageList(backdrops?.map { it.toImage() },
+    posters?.map { it.toImage() },
+    profiles?.map { it.toImage() },
+    stills?.map { it.toImage() })
 
 fun LanguageDTO.toLanguage() = Language(englishName)
 
-fun MovieDTO.toMovie() = Movie(character, id, job, overview, posterPath, releaseDate, title, voteAverage)
+fun MovieDTO.toMovie() =
+    Movie(character, id, job, overview, posterPath, releaseDate, title, voteAverage)
 
-fun MovieCreditsDTO.toMovieCredits() = MovieCredits(cast.map { it.toMovie() }, crew.map { it.toMovie() })
+fun MovieCreditsDTO.toMovieCredits() =
+    MovieCredits(cast.map { it.toMovie() }, crew.map { it.toMovie() })
 
 fun MovieDetailDTO.toMovieDetail() = MovieDetail(
     budget,
@@ -56,7 +65,8 @@ fun MovieDetailDTO.toMovieDetail() = MovieDetail(
 
 fun MovieListDTO.toMovieList() = MovieList(results.map { it.toMovie() }, totalResults)
 
-fun PersonDTO.toPerson() = Person(character, department, id, job, knownForDepartment, name, profilePath)
+fun PersonDTO.toPerson() =
+    Person(character, department, id, job, knownForDepartment, name, profilePath)
 
 fun PersonDetailDTO.toPersonDetail() = PersonDetail(
     alsoKnownAs,
@@ -132,3 +142,33 @@ fun TvListDTO.toTvList() = TvList(results.map { it.toTv() }, totalResults)
 fun VideoDTO.toVideo() = Video(key, name, publishedAt, site, type)
 
 fun VideoListDTO.toVideoList() = VideoList(results.map { it.toVideo() })
+
+fun RequestTokenDTO.toRequestToken() = RequestToken(
+    requestToken = this.requestToken,
+    success = this.success,
+    expiresAt = this.expiresAt
+)
+
+fun AccessTokenDTO.toAccessToken() = AccessToken(
+    accessToken = this.accessToken,
+    success = this.success,
+    accountId = this.accountId
+)
+
+fun SessionDTO.toSession() = Session(
+    sessionId = this.sessionId,
+    success = this.success
+)
+
+fun ProfileDto.toProfile(): Profile {
+    return Profile(
+        avatarUrl = "https://image.tmdb.org/t/p/w92$avatar.gravatar.hash",
+        id = this.id,
+        language = this.language,
+        country = this.language,
+        name = this.name,
+        includeAdult = this.includeAdult,
+        username = this.username
+    )
+}
+

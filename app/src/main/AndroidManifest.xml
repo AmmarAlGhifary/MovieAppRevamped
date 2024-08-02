@@ -14,7 +14,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.TMDB"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.authentication.AuthenticationActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="approved"
+                    android:scheme="tmdb" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.fullscreen.FullscreenActivity"
             android:exported="false" />

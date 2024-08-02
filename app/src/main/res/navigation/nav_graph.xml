@@ -21,6 +21,9 @@
         android:id="@+id/profileFragment"
         android:name="com.example.tmdb.ui.profile.ProfileFragment"
         android:label="fragment_profiles"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+          </fragment>
+
+
 
 </navigation>

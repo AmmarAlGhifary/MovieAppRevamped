@@ -1,13 +1,16 @@
 package com.example.tmdb.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.tmdb.R
@@ -15,6 +18,7 @@ import com.example.tmdb.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
@@ -33,7 +37,32 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavBar.setupWithNavController(navController)
 
-        if (getIsFirstLaunch()) showAlertDialog()
+        lifecycleScope.launch {
+            if (getIsFirstLaunch()) {
+                showAlertDialog()
+            }
+        }
+
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        intent?.data?.let { uri ->
+            if (uri.scheme == "tmdb" && uri.host == "approved") {
+                val requestToken = uri.getQueryParameter("request_token")
+                if (requestToken != null) {
+                    val navController = findNavController(R.id.fragmentContainerView)
+                    navController.navigate(R.id.authenticationFragment, Bundle().apply {
+                        putString("request_token", requestToken)
+                    })
+                }
+            }
+        }
     }
 
     private fun getIsFirstLaunch() = runBlocking {
@@ -54,7 +83,9 @@ class MainActivity : AppCompatActivity() {
             .setTitle(getString(R.string.tmdb_attribution_title))
             .setMessage(getString(R.string.tmdb_attribution_message))
             .setPositiveButton(getString(R.string.tmdb_attribution_button_text)) { dialog, _ ->
-                setIsFirstLaunch()
+                lifecycleScope.launch {
+                    setIsFirstLaunch()
+                }
                 dialog.dismiss()
             }
             .setCancelable(false)

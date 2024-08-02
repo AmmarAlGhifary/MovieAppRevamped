@@ -4,11 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.*
 import android.os.Build
-import android.util.Log
 import com.example.tmdb.BuildConfig.API_KEY
 import com.example.tmdb.BuildConfig.BASE_URL
+import com.example.tmdb.data.remote.api.AuthenticationApi
 import com.example.tmdb.data.remote.api.MovieApi
 import com.example.tmdb.data.remote.api.PersonApi
+import com.example.tmdb.data.remote.api.ProfileApi
 import com.example.tmdb.data.remote.api.TvApi
 import dagger.Module
 import dagger.Provides
@@ -39,11 +40,13 @@ object NetworkModule {
 
     @SuppressLint("ObsoleteSdkInt")
     private fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val network = connectivityManager.activeNetwork ?: return false
-            val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            val networkCapabilities =
+                connectivityManager.getNetworkCapabilities(network) ?: return false
 
             when {
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
@@ -117,13 +120,23 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideMovieApi(retrofit: Retrofit) : MovieApi = retrofit.create(MovieApi::class.java)
+    fun provideMovieApi(retrofit: Retrofit): MovieApi = retrofit.create(MovieApi::class.java)
 
     @Singleton
     @Provides
-    fun provideTvApi(retrofit: Retrofit) : TvApi = retrofit.create(TvApi::class.java)
+    fun provideTvApi(retrofit: Retrofit): TvApi = retrofit.create(TvApi::class.java)
 
     @Singleton
     @Provides
-    fun provitePersonApi(retrofit: Retrofit): PersonApi = retrofit.create(PersonApi::class.java)
+    fun providePersonApi(retrofit: Retrofit): PersonApi = retrofit.create(PersonApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideAuthenticationApi(retrofit: Retrofit): AuthenticationApi =
+        retrofit.create(AuthenticationApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideProfileApi(retrofit: Retrofit) : ProfileApi =
+        retrofit.create(ProfileApi::class.java)
 }
