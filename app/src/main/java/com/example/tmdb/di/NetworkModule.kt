@@ -19,10 +19,12 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
+import kotlin.math.log
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -100,14 +102,24 @@ object NetworkModule {
 
     @Singleton
     @Provides
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        return logging
+    }
+
+    @Singleton
+    @Provides
     fun provideOkHttpClient(
         @ApplicationContext context: Context,
         @Named(CACHE_INTERCEPTOR) cacheInterceptor: Interceptor,
-        @Named(REQUEST_INTERCEPTOR) requestInterceptor: Interceptor
+        @Named(REQUEST_INTERCEPTOR) requestInterceptor: Interceptor,
+        loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .cache(Cache(context.cacheDir, CACHE_SIZE))
         .addInterceptor(cacheInterceptor)
         .addInterceptor(requestInterceptor)
+        .addInterceptor(loggingInterceptor)
         .build()
 
     @Singleton
@@ -137,6 +149,6 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideProfileApi(retrofit: Retrofit) : ProfileApi =
+    fun provideProfileApi(retrofit: Retrofit): ProfileApi =
         retrofit.create(ProfileApi::class.java)
 }

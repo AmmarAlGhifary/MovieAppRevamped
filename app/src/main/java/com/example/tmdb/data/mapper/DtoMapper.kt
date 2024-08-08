@@ -1,5 +1,6 @@
 package com.example.tmdb.data.mapper
 
+import android.util.Log
 import com.example.tmdb.data.remote.dto.*
 import com.example.tmdb.domain.model.*
 
@@ -159,16 +160,19 @@ fun SessionDTO.toSession() = Session(
     sessionId = this.sessionId,
     success = this.success
 )
-
 fun ProfileDto.toProfile(): Profile {
     return Profile(
-        avatarUrl = "https://image.tmdb.org/t/p/w92$avatar.gravatar.hash",
+        avatar = Avatar(
+            gravatar = Gravatar(
+                hash = this.avatar.gravatar.hash
+            ),
+            tmdb = this.avatar.tmdb?.let { TmdbAvatar(it.avatarPath) }
+        ),
         id = this.id,
         language = this.language,
-        country = this.language,
+        country = this.country,
         name = this.name,
         includeAdult = this.includeAdult,
         username = this.username
     )
 }
-

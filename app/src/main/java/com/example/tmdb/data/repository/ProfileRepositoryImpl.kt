@@ -9,15 +9,14 @@ import javax.inject.Inject
 
 class ProfileRepositoryImpl @Inject constructor(
     private val api: ProfileApi
-) : ProfileRepository{
+) : ProfileRepository {
 
     override suspend fun getProfile(sessionId: String): Resource<Profile> {
         return try {
             val response = api.getProfile(sessionId)
             Resource.Success(response.toProfile())
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Resource.Error(e.message ?: "An unknown error occurred")
         }
     }
-
 }

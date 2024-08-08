@@ -2,7 +2,6 @@ package com.example.tmdb.util
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -10,6 +9,7 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -27,14 +27,13 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.tmdb.BuildConfig.POSTER_BASE_URL
 import com.example.tmdb.R
 import com.example.tmdb.domain.model.Genre
 import com.example.tmdb.ui.moviedetails.MovieDetailsActivity
@@ -151,21 +150,6 @@ fun View.setTransparentBackground(backgroundColor: Int) {
     setBackgroundColor(ColorUtils.setAlphaComponent(backgroundColor, 220))
 }
 
-@BindingAdapter("isNested")
-fun ViewPager2.handleNestedScroll(isNested: Boolean) {
-    if (isNested) {
-        val recyclerViewField = ViewPager2::class.java.getDeclaredField("mRecyclerView")
-        recyclerViewField.isAccessible = true
-        val recyclerView = recyclerViewField.get(this) as RecyclerView
-        recyclerView.interceptTouch()
-    }
-}
-
-@BindingAdapter("isNested")
-fun RecyclerView.handleNestedScroll(isNested: Boolean) {
-    if (isNested) interceptTouch()
-}
-
 @BindingAdapter("type", "isGrid", "loadMore", "shouldLoadMore", requireAll = false)
 fun RecyclerView.addInfiniteScrollListener(type: Any?, isGrid: Boolean, infiniteScroll: InfiniteScrollListener, shouldLoadMore: Boolean) {
     if (shouldLoadMore) {
@@ -206,6 +190,8 @@ fun RecyclerView.setFixedSize(hasFixedSize: Boolean) {
 fun ImageView.loadImage(posterPath: String?, mediaType: MediaType?, quality: ImageQuality?, centerCrop: Boolean?, fitTop: Boolean, isThumbnail: Boolean) {
     val imageUrl = if (isThumbnail) "https://img.youtube.com/vi/$posterPath/0.jpg" else quality?.imageBaseUrl + posterPath
 
+    val placeholder = AppCompatResources.getDrawable(context, R.drawable.ic_baseline_person_24)
+
     val errorImage = AppCompatResources.getDrawable(
         context,
         when (mediaType) {
@@ -219,6 +205,7 @@ fun ImageView.loadImage(posterPath: String?, mediaType: MediaType?, quality: Ima
     val glide = Glide.with(context)
         .load(imageUrl)
         .transition(DrawableTransitionOptions.withCrossFade())
+        .apply(RequestOptions().placeholder(placeholder).error(errorImage)).skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.ALL)
         .error(errorImage)
         .skipMemoryCache(false)
 

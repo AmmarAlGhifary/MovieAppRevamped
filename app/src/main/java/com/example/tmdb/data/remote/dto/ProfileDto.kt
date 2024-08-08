@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ProfileDto(
     @SerializedName("avatar")
-    val avatar: Avatar,
+    val avatar: AvatarDto,
     @SerializedName("id")
     val id: Int,
     @SerializedName("iso_639_1")
@@ -19,12 +19,19 @@ data class ProfileDto(
     val username: String
 )
 
-data class Avatar(
+data class AvatarDto(
     @SerializedName("gravatar")
-    val gravatar: Gravatar
+    val gravatar: GravatarDto,
+    @SerializedName("tmdb")
+    val tmdb: TmdbAvatarDto?
 )
 
-data class Gravatar(
+data class GravatarDto(
     @SerializedName("hash")
     val hash: String
+)
+
+data class TmdbAvatarDto(
+    @SerializedName("avatar_path")
+    val avatarPath: String?
 )

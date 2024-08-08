@@ -1,5 +1,6 @@
 package com.example.tmdb.ui.profile
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -59,22 +60,39 @@ class ProfileViewModel @Inject constructor(
             val result = getProfile.invoke(sessionId)
             _profileUiState.value = when (result) {
                 is Resource.Success -> {
+                    Log.d(this@ProfileViewModel.toString(), "Fetched profile: ${result.data}")
                     setProfileData(result.data)
                     UiState.successState()
                 }
 
-                is Resource.Error -> UiState.errorState(errorText = result.message)
+                is Resource.Error -> {
+                    Log.d(this@ProfileViewModel.toString(), "Failed to fetch profile: ${result.message}")
+                    UiState.errorState(errorText = result.message)
+                }
             }
         }
     }
 
     private fun setProfileData(data: Profile) {
-        _avatarUrl.value = data.avatarUrl
+        val tmdbAvatarUrl = data.avatar.tmdb?.avatarPath
+        val gravatarHash = data.avatar.gravatar.hash
+        val avatarUrl = if (tmdbAvatarUrl != null) {
+            "https://image.tmdb.org/t/p/w92$tmdbAvatarUrl"
+        } else {
+            "https://www.gravatar.com/avatar/$gravatarHash.jpg?s=200&d=mm"
+        }
+        _avatarUrl.value = avatarUrl
         _name.value = data.name
         _username.value = data.username
         _includeAdult.value = data.includeAdult
         _language.value = data.language
         _country.value = data.country
+        logProfileData(data, avatarUrl)
+    }
+
+    private fun logProfileData(data: Profile, avatarUrl: String) {
+        Log.d(this@ProfileViewModel.toString(), "Using avatar URL: $avatarUrl")
+        Log.d(this@ProfileViewModel.toString(), "Profile data: id=${data.id}, name=${data.name}, username=${data.username}, avatarUrl=$avatarUrl")
     }
 
     private object PreferencesKeys {

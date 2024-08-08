@@ -2,6 +2,7 @@ package com.example.tmdb.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
@@ -36,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNavBar.setupWithNavController(navController)
-
         lifecycleScope.launch {
             if (getIsFirstLaunch()) {
                 showAlertDialog()
@@ -54,13 +54,7 @@ class MainActivity : AppCompatActivity() {
     private fun handleIntent(intent: Intent?) {
         intent?.data?.let { uri ->
             if (uri.scheme == "tmdb" && uri.host == "approved") {
-                val requestToken = uri.getQueryParameter("request_token")
-                if (requestToken != null) {
-                    val navController = findNavController(R.id.fragmentContainerView)
-                    navController.navigate(R.id.authenticationFragment, Bundle().apply {
-                        putString("request_token", requestToken)
-                    })
-                }
+                uri.getQueryParameter("request_token")
             }
         }
     }
